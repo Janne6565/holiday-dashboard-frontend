@@ -2,6 +2,15 @@
 // to match its shape. Add every key to both. German is the default (the app's UI).
 const de = {
   app: { title: "Konsole", hq: "SOMMER-HQ", tvView: "TV-Ansicht →", konsole: "Konsole →" },
+  lock: {
+    locked: "Konsole gesperrt",
+    prompt: "Passwort eingeben, um die Konsole zu bearbeiten.",
+    placeholder: "Passwort",
+    unlock: "Entsperren",
+    lock: "Sperren",
+    checking: "Prüfe…",
+    wrong: "Falsches Passwort",
+  },
   tabs: { aufgaben: "Aufgaben", einkauf: "Einkauf", routine: "Routine", status: "Status" },
   cols: { todo: "Offen", doing: "In Arbeit", done: "Erledigt" },
   cat: { tech: "TECH", freizeit: "FREIZEIT" },
@@ -89,6 +98,15 @@ type Schema = DeepStringSchema<typeof de>;
 
 const en: Schema = {
   app: { title: "Console", hq: "SUMMER-HQ", tvView: "TV view →", konsole: "Console →" },
+  lock: {
+    locked: "Console locked",
+    prompt: "Enter the password to edit the console.",
+    placeholder: "Password",
+    unlock: "Unlock",
+    lock: "Lock",
+    checking: "Checking…",
+    wrong: "Wrong password",
+  },
   tabs: { aufgaben: "Tasks", einkauf: "Shopping", routine: "Routine", status: "Status" },
   cols: { todo: "To do", doing: "In progress", done: "Done" },
   cat: { tech: "TECH", freizeit: "LEISURE" },
