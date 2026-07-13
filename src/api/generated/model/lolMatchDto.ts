@@ -11,4 +11,5 @@ export interface LolMatchDto {
   win?: boolean;
   mode?: string;
   playedAt?: string;
+  today?: boolean;
 }

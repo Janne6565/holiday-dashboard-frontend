@@ -114,6 +114,7 @@ export function useTvDashboardLogic() {
       return {
         key: `${m.playedAt}-${i}`,
         win: !!m.win,
+        today: m.today !== false,
         duo,
         title: players.map((p) => p.champ).join(" + "),
         who: players.map((p) => p.who).join(" & "),

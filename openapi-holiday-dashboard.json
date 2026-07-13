@@ -789,6 +789,9 @@
           "playedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "today": {
+            "type": "boolean"
           }
         }
       },

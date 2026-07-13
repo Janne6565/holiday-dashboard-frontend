@@ -39,6 +39,7 @@ export function LolPanel({ logic }: { logic: TvLogic }) {
                 background: m.win ? "rgba(63,207,142,0.06)" : "rgba(241,106,95,0.06)",
                 borderLeft: `3px solid ${res}`,
                 padding: "8px 12px 8px 11px",
+                opacity: m.today ? 1 : 0.45,
               }}
             >
               <div className="flex flex-none">
