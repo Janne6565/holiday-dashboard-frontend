@@ -94,7 +94,39 @@ export function useTvDashboardLogic() {
 
     const lol = board?.lol ?? { todayWins: 0, todayLosses: 0, matches: [] };
     const allMatches = lol.matches ?? [];
-    const lolMatches = allMatches.slice(0, 4);
+    const whoColor = (who: string | undefined) =>
+      who === "Janne" ? "var(--janne)" : "var(--simon)";
+    // A match both residents played arrives with two players → render it as one game together,
+    // with a combined KDA. Exactly the design's lol.matches[] mapping.
+    const lolMatches = allMatches.slice(0, 4).map((m, i) => {
+      const players = m.players ?? [];
+      const duo = players.length > 1;
+      const agoH = m.playedAt
+        ? Math.max(0, Math.floor((now - Date.parse(m.playedAt)) / 3600e3))
+        : 0;
+      const combined = players.reduce(
+        (acc, p) => {
+          const [k = 0, d = 0, a = 0] = (p.kda ?? "").split("/").map(Number);
+          return [acc[0] + k, acc[1] + d, acc[2] + a];
+        },
+        [0, 0, 0],
+      );
+      return {
+        key: `${m.playedAt}-${i}`,
+        win: !!m.win,
+        duo,
+        title: players.map((p) => p.champ).join(" + "),
+        who: players.map((p) => p.who).join(" & "),
+        mode: m.mode ?? "",
+        ago: m.playedAt ? fmtAgo(agoH, t) : "",
+        kda: duo ? combined.join("/") : (players[0]?.kda ?? ""),
+        avatars: players.map((p, idx) => ({
+          init: (p.champ ?? "").slice(0, 2).toUpperCase(),
+          ring: whoColor(p.who),
+          overlap: idx > 0,
+        })),
+      };
+    });
     // Recent five results as oldest→newest dots, exactly as the design's header strip.
     const lolDots = allMatches
       .slice(0, 5)

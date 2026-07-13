@@ -1,18 +1,44 @@
 {
   "openapi": "3.1.0",
-  "info": { "title": "OpenAPI definition", "version": "v0" },
-  "servers": [{ "url": "http://localhost:8080", "description": "Generated server url" }],
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
   "tags": [
-    { "name": "Chore", "description": "Recurring chores (Routine) with overdue detection" },
-    { "name": "Board", "description": "The whole shared dashboard state in one payload" },
-    { "name": "Shopping", "description": "Shared shopping list (Einkauf)" },
-    { "name": "Todo", "description": "Kanban task board" },
+    {
+      "name": "Chore",
+      "description": "Recurring chores (Routine) with overdue detection"
+    },
+    {
+      "name": "Board",
+      "description": "The whole shared dashboard state in one payload"
+    },
+    {
+      "name": "Shopping",
+      "description": "Shared shopping list (Einkauf)"
+    },
+    {
+      "name": "Todo",
+      "description": "Kanban task board"
+    },
     {
       "name": "Metrics ingest",
       "description": "Claude usage push endpoint (guarded by the X-Ingest-Key header)"
     },
-    { "name": "League of Legends", "description": "Live match data from the Riot API" },
-    { "name": "Working status", "description": "\"X arbeitet gerade an …\" per person" }
+    {
+      "name": "League of Legends",
+      "description": "Live match data from the Riot API"
+    },
+    {
+      "name": "Working status",
+      "description": "\"X arbeitet gerade an …\" per person"
+    }
   ],
   "paths": {
     "/api/v1/status/{person}": {
@@ -25,13 +51,18 @@
             "name": "person",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "enum": ["janne", "simon"] }
+            "schema": {
+              "type": "string",
+              "enum": ["janne", "simon"]
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/WorkingStatusUpdateDto" }
+              "schema": {
+                "$ref": "#/components/schemas/WorkingStatusUpdateDto"
+              }
             }
           },
           "required": true
@@ -39,7 +70,13 @@
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/WorkingStatusDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkingStatusDto"
+                }
+              }
+            }
           }
         }
       }
@@ -50,12 +87,25 @@
         "summary": "Toggle an item's done state",
         "operationId": "toggleItem",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/ShoppingItemDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingItemDto"
+                }
+              }
+            }
           }
         }
       }
@@ -66,12 +116,21 @@
         "summary": "Change a chore's interval",
         "operationId": "updateInterval",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/ChoreIntervalUpdateDto" }
+              "schema": {
+                "$ref": "#/components/schemas/ChoreIntervalUpdateDto"
+              }
             }
           },
           "required": true
@@ -79,7 +138,13 @@
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/ChoreDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChoreDto"
+                }
+              }
+            }
           }
         }
       }
@@ -90,12 +155,25 @@
         "summary": "Mark a chore as done now (resets the timer)",
         "operationId": "markDone",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/ChoreDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChoreDto"
+                }
+              }
+            }
           }
         }
       }
@@ -110,7 +188,12 @@
             "description": "OK",
             "content": {
               "*/*": {
-                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/TodoDto" } }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TodoDto"
+                  }
+                }
               }
             }
           }
@@ -122,14 +205,24 @@
         "operationId": "createTodo",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/TodoCreationDto" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TodoCreationDto"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/TodoDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodoDto"
+                }
+              }
+            }
           }
         }
       }
@@ -146,7 +239,9 @@
               "*/*": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/ShoppingItemDto" }
+                  "items": {
+                    "$ref": "#/components/schemas/ShoppingItemDto"
+                  }
                 }
               }
             }
@@ -160,7 +255,9 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/ShoppingItemCreationDto" }
+              "schema": {
+                "$ref": "#/components/schemas/ShoppingItemCreationDto"
+              }
             }
           },
           "required": true
@@ -168,7 +265,13 @@
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/ShoppingItemDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShoppingItemDto"
+                }
+              }
+            }
           }
         }
       }
@@ -183,19 +286,32 @@
             "name": "person",
             "in": "path",
             "required": true,
-            "schema": { "type": "string", "enum": ["janne", "simon"] }
+            "schema": {
+              "type": "string",
+              "enum": ["janne", "simon"]
+            }
           }
         ],
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/TokenUsageIngestDto" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenUsageIngestDto"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/TokenUsageDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenUsageDto"
+                }
+              }
+            }
           }
         }
       }
@@ -210,7 +326,12 @@
             "description": "OK",
             "content": {
               "*/*": {
-                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/ChoreDto" } }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChoreDto"
+                  }
+                }
               }
             }
           }
@@ -222,14 +343,24 @@
         "operationId": "createChore",
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/ChoreCreationDto" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChoreCreationDto"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/ChoreDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChoreDto"
+                }
+              }
+            }
           }
         }
       }
@@ -240,27 +371,55 @@
         "summary": "Delete a task",
         "operationId": "deleteTodo",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       },
       "patch": {
         "tags": ["Todo"],
         "summary": "Update a task (title / category / status / priority)",
         "operationId": "updateTodo",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/TodoUpdateDto" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TodoUpdateDto"
+              }
+            }
           },
           "required": true
         },
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/TodoDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodoDto"
+                }
+              }
+            }
           }
         }
       }
@@ -273,7 +432,13 @@
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/WorkingStatusDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkingStatusDto"
+                }
+              }
+            }
           }
         }
       }
@@ -286,7 +451,13 @@
         "responses": {
           "200": {
             "description": "OK",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/LolSummaryDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LolSummaryDto"
+                }
+              }
+            }
           }
         }
       }
@@ -299,7 +470,13 @@
         "responses": {
           "200": {
             "description": "Board returned",
-            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/BoardDto" } } }
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardDto"
+                }
+              }
+            }
           }
         }
       }
@@ -310,9 +487,20 @@
         "summary": "Delete a shopping item",
         "operationId": "deleteItem",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/v1/shopping/done": {
@@ -320,7 +508,11 @@
         "tags": ["Shopping"],
         "summary": "Remove all done items",
         "operationId": "clearDone",
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/v1/chores/{id}": {
@@ -329,9 +521,20 @@
         "summary": "Delete a chore",
         "operationId": "deleteChore",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
-        "responses": { "200": { "description": "OK" } }
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   },
@@ -339,71 +542,158 @@
     "schemas": {
       "WorkingStatusUpdateDto": {
         "type": "object",
-        "properties": { "text": { "type": "string", "maxLength": 300, "minLength": 0 } }
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 0
+          }
+        }
       },
       "WorkingStatusDto": {
         "type": "object",
-        "properties": { "janne": { "type": "string" }, "simon": { "type": "string" } }
+        "properties": {
+          "janne": {
+            "type": "string"
+          },
+          "simon": {
+            "type": "string"
+          }
+        }
       },
       "ShoppingItemDto": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "text": { "type": "string" },
-          "done": { "type": "boolean" }
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "done": {
+            "type": "boolean"
+          }
         }
       },
       "ChoreIntervalUpdateDto": {
         "type": "object",
         "properties": {
-          "intervalHours": { "type": "integer", "format": "int32", "maximum": 8760, "minimum": 1 }
+          "intervalHours": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 8760,
+            "minimum": 1
+          }
         }
       },
       "ChoreDto": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "title": { "type": "string" },
-          "lastDone": { "type": "string", "format": "date-time" },
-          "intervalHours": { "type": "integer", "format": "int32" },
-          "hoursSinceLastDone": { "type": "integer", "format": "int64" },
-          "overdue": { "type": "boolean" }
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "lastDone": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "intervalHours": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hoursSinceLastDone": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "overdue": {
+            "type": "boolean"
+          }
         }
       },
       "TodoCreationDto": {
         "type": "object",
         "properties": {
-          "title": { "type": "string", "maxLength": 200, "minLength": 0 },
-          "cat": { "type": "string", "enum": ["tech", "freizeit"] },
-          "prio": { "type": "string", "enum": ["hoch", "mittel", "niedrig"] }
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 0
+          },
+          "cat": {
+            "type": "string",
+            "enum": ["tech", "freizeit"]
+          },
+          "prio": {
+            "type": "string",
+            "enum": ["hoch", "mittel", "niedrig"]
+          }
         },
         "required": ["cat", "prio", "title"]
       },
       "TodoDto": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "title": { "type": "string" },
-          "cat": { "type": "string", "enum": ["tech", "freizeit"] },
-          "status": { "type": "string", "enum": ["todo", "doing", "done"] },
-          "prio": { "type": "string", "enum": ["hoch", "mittel", "niedrig"] }
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "cat": {
+            "type": "string",
+            "enum": ["tech", "freizeit"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["todo", "doing", "done"]
+          },
+          "prio": {
+            "type": "string",
+            "enum": ["hoch", "mittel", "niedrig"]
+          }
         }
       },
       "ShoppingItemCreationDto": {
         "type": "object",
-        "properties": { "text": { "type": "string", "maxLength": 200, "minLength": 0 } },
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 0
+          }
+        },
         "required": ["text"]
       },
       "TokenUsageIngestDto": {
         "type": "object",
         "properties": {
-          "fiveHPct": { "type": "integer", "format": "int32", "maximum": 100, "minimum": 0 },
-          "fiveHResetMin": { "type": "integer", "format": "int32" },
-          "weekPct": { "type": "integer", "format": "int32", "maximum": 100, "minimum": 0 },
-          "costEur": { "type": "number", "format": "double" },
+          "fiveHPct": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "fiveHResetMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "weekPct": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "costEur": {
+            "type": "number",
+            "format": "double"
+          },
           "history": {
             "type": "array",
-            "items": { "type": "number", "format": "double" },
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
             "maxItems": 31,
             "minItems": 0
           }
@@ -413,69 +703,169 @@
       "TokenUsageDto": {
         "type": "object",
         "properties": {
-          "fiveHPct": { "type": "integer", "format": "int32" },
-          "fiveHResetMin": { "type": "integer", "format": "int32" },
-          "weekPct": { "type": "integer", "format": "int32" },
-          "costEur": { "type": "number", "format": "double" },
-          "history": { "type": "array", "items": { "type": "number", "format": "double" } },
-          "updatedAt": { "type": "string", "format": "date-time" }
+          "fiveHPct": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fiveHResetMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "weekPct": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "costEur": {
+            "type": "number",
+            "format": "double"
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
         }
       },
       "ChoreCreationDto": {
         "type": "object",
         "properties": {
-          "title": { "type": "string", "maxLength": 200, "minLength": 0 },
-          "intervalHours": { "type": "integer", "format": "int32", "maximum": 8760, "minimum": 1 }
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 0
+          },
+          "intervalHours": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 8760,
+            "minimum": 1
+          }
         },
         "required": ["title"]
       },
       "TodoUpdateDto": {
         "type": "object",
         "properties": {
-          "title": { "type": "string", "maxLength": 200, "minLength": 0 },
-          "cat": { "type": "string", "enum": ["tech", "freizeit"] },
-          "status": { "type": "string", "enum": ["todo", "doing", "done"] },
-          "prio": { "type": "string", "enum": ["hoch", "mittel", "niedrig"] }
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 0
+          },
+          "cat": {
+            "type": "string",
+            "enum": ["tech", "freizeit"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["todo", "doing", "done"]
+          },
+          "prio": {
+            "type": "string",
+            "enum": ["hoch", "mittel", "niedrig"]
+          }
         }
       },
       "LolMatchDto": {
         "type": "object",
         "properties": {
-          "champ": { "type": "string" },
-          "who": { "type": "string" },
-          "win": { "type": "boolean" },
-          "kda": { "type": "string" },
-          "mode": { "type": "string" },
-          "playedAt": { "type": "string", "format": "date-time" }
+          "players": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LolPlayerDto"
+            }
+          },
+          "win": {
+            "type": "boolean"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "playedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "LolPlayerDto": {
+        "type": "object",
+        "properties": {
+          "champ": {
+            "type": "string"
+          },
+          "who": {
+            "type": "string"
+          },
+          "kda": {
+            "type": "string"
+          }
         }
       },
       "LolSummaryDto": {
         "type": "object",
         "properties": {
-          "todayWins": { "type": "integer", "format": "int32" },
-          "todayLosses": { "type": "integer", "format": "int32" },
-          "matches": { "type": "array", "items": { "$ref": "#/components/schemas/LolMatchDto" } }
+          "todayWins": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "todayLosses": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "matches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LolMatchDto"
+            }
+          }
         }
       },
       "BoardDto": {
         "type": "object",
         "properties": {
-          "todos": { "type": "array", "items": { "$ref": "#/components/schemas/TodoDto" } },
+          "todos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TodoDto"
+            }
+          },
           "shopping": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ShoppingItemDto" }
+            "items": {
+              "$ref": "#/components/schemas/ShoppingItemDto"
+            }
           },
-          "chores": { "type": "array", "items": { "$ref": "#/components/schemas/ChoreDto" } },
-          "working": { "$ref": "#/components/schemas/WorkingStatusDto" },
-          "tokens": { "$ref": "#/components/schemas/TokensDto" },
-          "lol": { "$ref": "#/components/schemas/LolSummaryDto" }
+          "chores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChoreDto"
+            }
+          },
+          "working": {
+            "$ref": "#/components/schemas/WorkingStatusDto"
+          },
+          "tokens": {
+            "$ref": "#/components/schemas/TokensDto"
+          },
+          "lol": {
+            "$ref": "#/components/schemas/LolSummaryDto"
+          }
         }
       },
       "TokensDto": {
         "type": "object",
         "properties": {
-          "janne": { "$ref": "#/components/schemas/TokenUsageDto" },
-          "simon": { "$ref": "#/components/schemas/TokenUsageDto" }
+          "janne": {
+            "$ref": "#/components/schemas/TokenUsageDto"
+          },
+          "simon": {
+            "$ref": "#/components/schemas/TokenUsageDto"
+          }
         }
       }
     }

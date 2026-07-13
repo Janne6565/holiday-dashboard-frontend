@@ -10,6 +10,7 @@ export * from './choreCreationDto';
 export * from './choreDto';
 export * from './choreIntervalUpdateDto';
 export * from './lolMatchDto';
+export * from './lolPlayerDto';
 export * from './lolSummaryDto';
 export * from './shoppingItemCreationDto';
 export * from './shoppingItemDto';

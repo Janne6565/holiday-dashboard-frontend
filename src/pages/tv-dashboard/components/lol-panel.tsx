@@ -1,8 +1,5 @@
-import { fmtAgo } from "@/lib/format";
 import { useTranslation } from "react-i18next";
 import type { TvLogic } from "../useTvDashboardLogic";
-
-const whoColor = (who: string | undefined) => (who === "Janne" ? "var(--janne)" : "var(--simon)");
 
 /** Live League of Legends panel: recent-result dots, today's win-rate, and the match feed. */
 export function LolPanel({ logic }: { logic: TvLogic }) {
@@ -33,41 +30,57 @@ export function LolPanel({ logic }: { logic: TvLogic }) {
 
       <div className="flex flex-col gap-2 overflow-hidden">
         {logic.lolMatches.map((m) => {
-          const win = !!m.win;
-          const res = win ? "var(--success)" : "var(--danger)";
+          const res = m.win ? "var(--success)" : "var(--danger)";
           return (
             <div
-              key={`${m.champ}-${m.playedAt}-${m.who}`}
+              key={m.key}
               className="flex items-center gap-3 rounded-[8px]"
               style={{
-                background: win ? "rgba(63,207,142,0.06)" : "rgba(241,106,95,0.06)",
+                background: m.win ? "rgba(63,207,142,0.06)" : "rgba(241,106,95,0.06)",
                 borderLeft: `3px solid ${res}`,
                 padding: "8px 12px 8px 11px",
               }}
             >
-              <span
-                className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-pill font-mono text-xs font-bold"
-                style={{
-                  background: "#10151b",
-                  border: `2px solid ${whoColor(m.who)}`,
-                  color: whoColor(m.who),
-                }}
-              >
-                {(m.champ ?? "").slice(0, 2).toUpperCase()}
-              </span>
+              <div className="flex flex-none">
+                {m.avatars.map((a, i) => (
+                  <span
+                    // biome-ignore lint/suspicious/noArrayIndexKey: at most two overlapping avatars
+                    key={i}
+                    className="flex h-[34px] w-[34px] items-center justify-center rounded-pill font-mono text-xs font-bold"
+                    style={{
+                      background: "#10151b",
+                      border: `2px solid ${a.ring}`,
+                      color: a.ring,
+                      marginLeft: a.overlap ? -10 : 0,
+                    }}
+                  >
+                    {a.init}
+                  </span>
+                ))}
+              </div>
               <div className="flex min-w-0 flex-1 flex-col gap-[2px]">
-                <div className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold">
-                  {m.champ}
+                <div className="flex items-center gap-2">
+                  <span className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold">
+                    {m.title}
+                  </span>
+                  {m.duo && (
+                    <span
+                      className="flex-none rounded-[5px] px-[6px] py-[2px] font-mono text-[9px] font-bold tracking-[0.08em]"
+                      style={{ background: "rgba(232,196,104,0.16)", color: "var(--warn)" }}
+                    >
+                      {t("tv.duo")}
+                    </span>
+                  )}
                 </div>
                 <div className="text-[11.5px] text-muted">
                   {m.who} · {m.mode}
-                  {m.playedAt ? ` · ${fmtAgo(hoursAgo(m.playedAt), t)}` : ""}
+                  {m.ago ? ` · ${m.ago}` : ""}
                 </div>
               </div>
               <div className="flex flex-none flex-col items-end gap-[2px]">
                 <span className="font-mono text-[13px] font-semibold">{m.kda}</span>
                 <span className="font-mono text-[11px] font-semibold" style={{ color: res }}>
-                  {win ? t("tv.matchWin") : t("tv.matchLoss")}
+                  {m.win ? t("tv.matchWin") : t("tv.matchLoss")}
                 </span>
               </div>
             </div>
@@ -76,8 +89,4 @@ export function LolPanel({ logic }: { logic: TvLogic }) {
       </div>
     </div>
   );
-}
-
-function hoursAgo(iso: string): number {
-  return Math.max(0, Math.floor((Date.now() - Date.parse(iso)) / 3600e3));
 }
