@@ -4,12 +4,11 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
+import type { LolPlayerDto } from './lolPlayerDto';
 
 export interface LolMatchDto {
-  champ?: string;
-  who?: string;
+  players?: LolPlayerDto[];
   win?: boolean;
-  kda?: string;
   mode?: string;
   playedAt?: string;
 }
