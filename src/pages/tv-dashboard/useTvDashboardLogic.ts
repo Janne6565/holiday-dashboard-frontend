@@ -93,7 +93,15 @@ export function useTvDashboardLogic() {
     const einkaufMore = Math.max(0, einkaufOpen.length - 6);
 
     const lol = board?.lol ?? { todayWins: 0, todayLosses: 0, matches: [] };
-    const lolMatches = (lol.matches ?? []).slice(0, 5);
+    const allMatches = lol.matches ?? [];
+    const lolMatches = allMatches.slice(0, 4);
+    // Recent five results as oldest→newest dots, exactly as the design's header strip.
+    const lolDots = allMatches
+      .slice(0, 5)
+      .map((m) => !!m.win)
+      .reverse();
+    const lolGames = (lol.todayWins ?? 0) + (lol.todayLosses ?? 0);
+    const lolWr = lolGames ? Math.round(((lol.todayWins ?? 0) / lolGames) * 100) : 0;
 
     const stageScale = Math.min(vw / 1920, vh / 1080);
     return {
@@ -106,9 +114,10 @@ export function useTvDashboardLogic() {
       einkaufItems,
       einkaufCount: einkaufOpen.length,
       einkaufMore,
-      lolWins: lol.todayWins ?? 0,
-      lolLosses: lol.todayLosses ?? 0,
       lolMatches,
+      lolDots,
+      lolWr,
+      lolWrColor: lolWr >= 50 ? "var(--success)" : "var(--danger)",
       doneCount,
       totalCount,
       donePct: totalCount ? Math.round((doneCount / totalCount) * 100) : 0,

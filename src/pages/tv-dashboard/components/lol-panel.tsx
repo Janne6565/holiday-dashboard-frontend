@@ -4,52 +4,72 @@ import type { TvLogic } from "../useTvDashboardLogic";
 
 const whoColor = (who: string | undefined) => (who === "Janne" ? "var(--janne)" : "var(--simon)");
 
-/** Live League of Legends panel: today's W/L and the recent-match grid. */
+/** Live League of Legends panel: recent-result dots, today's win-rate, and the match feed. */
 export function LolPanel({ logic }: { logic: TvLogic }) {
   const { t } = useTranslation();
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-[10px] rounded-card border border-white/[0.07] bg-panel px-[18px] py-4">
-      <div className="flex items-baseline justify-between">
+    <div className="flex min-h-0 flex-1 flex-col gap-[11px] rounded-card border border-white/[0.07] bg-panel px-[18px] py-4">
+      <div className="flex items-center gap-[14px]">
         <span className="font-mono text-xs tracking-[0.1em] text-muted">{t("tv.lol")}</span>
-        <span className="font-mono text-[13px]">
-          {t("tv.today")}{" "}
-          <span className="text-success">
-            {logic.lolWins} {t("tv.win")}
-          </span>{" "}
-          ·{" "}
-          <span className="text-danger">
-            {logic.lolLosses} {t("tv.loss")}
-          </span>
+        <div className="ml-auto flex gap-1">
+          {logic.lolDots.map((win, i) => (
+            <span
+              // biome-ignore lint/suspicious/noArrayIndexKey: fixed recent-results strip
+              key={i}
+              className="flex h-[14px] w-[14px] items-center justify-center rounded-[4px] font-mono text-[9px] font-bold"
+              style={{
+                background: win ? "rgba(63,207,142,0.2)" : "rgba(241,106,95,0.2)",
+                color: win ? "var(--success)" : "var(--danger)",
+              }}
+            >
+              {win ? t("tv.win") : t("tv.loss")}
+            </span>
+          ))}
+        </div>
+        <span className="font-mono text-[13px]" style={{ color: logic.lolWrColor }}>
+          {t("tv.wr", { pct: logic.lolWr })}
         </span>
       </div>
-      <div className="flex flex-col gap-[7px] overflow-hidden">
+
+      <div className="flex flex-col gap-2 overflow-hidden">
         {logic.lolMatches.map((m) => {
           const win = !!m.win;
+          const res = win ? "var(--success)" : "var(--danger)";
           return (
             <div
               key={`${m.champ}-${m.playedAt}-${m.who}`}
-              className="grid grid-cols-[30px_1.4fr_1fr_0.9fr_0.8fr] items-center gap-[10px] rounded-[8px] bg-panel-2 px-3 py-[7px]"
+              className="flex items-center gap-3 rounded-[8px]"
+              style={{
+                background: win ? "rgba(63,207,142,0.06)" : "rgba(241,106,95,0.06)",
+                borderLeft: `3px solid ${res}`,
+                padding: "8px 12px 8px 11px",
+              }}
             >
               <span
-                className="rounded-[5px] py-[2px] text-center font-mono text-xs font-semibold"
+                className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-pill font-mono text-xs font-bold"
                 style={{
-                  background: win ? "rgba(63,207,142,0.15)" : "rgba(241,106,95,0.15)",
-                  color: win ? "var(--success)" : "var(--danger)",
+                  background: "#10151b",
+                  border: `2px solid ${whoColor(m.who)}`,
+                  color: whoColor(m.who),
                 }}
               >
-                {win ? t("tv.win") : t("tv.loss")}
+                {(m.champ ?? "").slice(0, 2).toUpperCase()}
               </span>
-              <span className="text-sm font-semibold">
-                {m.champ}{" "}
-                <span className="font-normal" style={{ color: whoColor(m.who) }}>
-                  · {m.who}
+              <div className="flex min-w-0 flex-1 flex-col gap-[2px]">
+                <div className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold">
+                  {m.champ}
+                </div>
+                <div className="text-[11.5px] text-muted">
+                  {m.who} · {m.mode}
+                  {m.playedAt ? ` · ${fmtAgo(hoursAgo(m.playedAt), t)}` : ""}
+                </div>
+              </div>
+              <div className="flex flex-none flex-col items-end gap-[2px]">
+                <span className="font-mono text-[13px] font-semibold">{m.kda}</span>
+                <span className="font-mono text-[11px] font-semibold" style={{ color: res }}>
+                  {win ? t("tv.matchWin") : t("tv.matchLoss")}
                 </span>
-              </span>
-              <span className="text-xs text-muted">{m.mode}</span>
-              <span className="font-mono text-xs">{m.kda}</span>
-              <span className="text-right text-xs text-muted">
-                {m.playedAt ? fmtAgo(hoursAgo(m.playedAt), t) : ""}
-              </span>
+              </div>
             </div>
           );
         })}
