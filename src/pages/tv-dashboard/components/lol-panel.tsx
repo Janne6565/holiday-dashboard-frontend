@@ -28,7 +28,7 @@ export function LolPanel({ logic }: { logic: TvLogic }) {
         </span>
       </div>
 
-      <div className="flex flex-col gap-2 overflow-hidden">
+      <div className="no-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
         {logic.lolMatches.map((m) => {
           const res = m.win ? "var(--success)" : "var(--danger)";
           return (

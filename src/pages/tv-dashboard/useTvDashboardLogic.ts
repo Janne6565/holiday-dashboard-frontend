@@ -97,8 +97,9 @@ export function useTvDashboardLogic() {
     const whoColor = (who: string | undefined) =>
       who === "Janne" ? "var(--janne)" : "var(--simon)";
     // A match both residents played arrives with two players → render it as one game together,
-    // with a combined KDA. Exactly the design's lol.matches[] mapping.
-    const lolMatches = allMatches.slice(0, 4).map((m, i) => {
+    // with a combined KDA. Exactly the design's lol.matches[] mapping. Up to 15 recent games are
+    // rendered; the panel scrolls when they overflow.
+    const lolMatches = allMatches.slice(0, 15).map((m, i) => {
       const players = m.players ?? [];
       const duo = players.length > 1;
       const agoH = m.playedAt
